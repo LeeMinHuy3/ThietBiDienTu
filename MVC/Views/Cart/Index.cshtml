@@ -1,0 +1,78 @@
+﻿@model IEnumerable<MVC.Models.CartItem>
+
+<h1 class="text-center mt-4">Shopping Cart</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-product-id="@item.ProductId">
+                <td>@item.ProductName</td>
+                <td>@item.ProductPrice.ToString("C")</td>
+                <td>
+                    <input type="number" class="form-control quantity" data-price="@item.ProductPrice" value="@item.Quantity" min="1" />
+                </td>
+                <td class="total-price" data-item-price="@item.ProductPrice">@((item.ProductPrice * item.Quantity).ToString("C"))</td>
+                <td>
+                    <button class="btn btn-danger btn-sm remove-cart-item" data-product-id="@item.ProductId">Remove</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Xử lý sự kiện xóa sản phẩm
+    $(document).on('click', '.remove-cart-item', function (event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
+        const productId = $(this).data('product-id');
+        const row = $(this).closest('tr'); // Lấy hàng hiện tại
+
+        // Xác nhận trước khi xóa
+        if (confirm('Are you sure you want to remove this item from your cart?')) {
+            $.ajax({
+                url: '@Url.Action("RemoveFromCart", "Cart")', // Đường dẫn đến action RemoveFromCart
+                type: 'POST',
+                data: { productId: productId },
+                success: function (response) {
+                    if (response.success) {
+                        row.remove(); // Xóa hàng khỏi bảng
+                        alert('Item removed from cart.');
+                    } else {
+                        alert('Failed to remove item. Please try again.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while removing the item. Please try again.');
+                }
+            });
+        }
+    });
+
+    // Tìm tất cả các trường số lượng
+    const quantityInputs = document.querySelectorAll('.quantity');
+
+    quantityInputs.forEach(input => {
+        input.addEventListener('input', function () {
+            const price = parseFloat(this.getAttribute('data-price'));
+            const quantity = parseInt(this.value);
+            const totalPriceCell = this.closest('tr').querySelector('.total-price');
+
+            // Tính toán tổng
+            const total = price * quantity;
+
+            // Cập nhật tổng giá
+            totalPriceCell.innerText = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        });
+    });
+</script>

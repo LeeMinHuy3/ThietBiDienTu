@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MVC.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/1dc1877525.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-back bg-white border-bottom box-shadow mb-3 fixed-top">
+            <div class="container">
+                <ul class="nav d-flex justify-content-center align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><img src="/images/Logo.png" width="100" /></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Product" asp-action="Index">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Product" asp-action="Index">Sản Phẩm</a>
+                    </li>
+                </ul>
+                <form class="d-flex justify-content-end">
+                    <input class="form-control me-2" type="text" placeholder="Search">
+                    <button class="btn btn-primary" type="button">Search</button>
+                </form>
+                <ul class="nav justify-content-end">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa-regular fa-user"></i> @User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Đăng Xuất</a></li>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Product" asp-action="Create">Thêm Sản Phẩm</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Cart" asp-action="Index">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span class="badge bg-primary">@ViewBag.CartItemCount</span> <!-- Số lượng sản phẩm trong giỏ hàng -->
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Auth" asp-action="Login">Đăng Nhập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Auth" asp-action="Register">Đăng Ký</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container p-5">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <div>
+        <h1 class="text-center m-5" id="TinTuc">Tin Tức</h1>
+        <div class="container">
+            <div class="row">
+                <div class="card col-md-3 m-3" style="width:250px">
+                    <img class="card-img-top mt-2" src="/images/image 22.png" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">5 Best Power Bank for iPad: Buyer’s Guide</h4>
+                        <p class="card-text">
+                            The iPad, with its versatility and portability,
+                            serves as a powerful tool for both work and leisure.
+                        </p>
+                    </div>
+                </div>
+                <div class="card col-md-3 m-3" style="width:250px">
+                    <img class="card-img-top mt-2 " src="/images/image 23.png" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            The Best Power Bank for Backpacking: Never Run
+                            Out of Juice on Your Adventures
+                        </h4>
+                        <p class="card-text">
+                            When you're out backpacking, the last thing you
+                            want is to be stranded with dead electronic devices.
+                        </p>
+                    </div>
+                </div>
+                <div class="card col-md-3 m-3" style="width:250px">
+                    <img class="card-img-top mt-2" src="/images/image 24.png" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">Powering Up: Can a USB-C Phone Charger Charge a Laptop?</h4>
+                        <p class="card-text">
+                            As technology advances, whether can a USB-C phone
+                            charger charge a laptop has become.
+                        </p>
+                    </div>
+                </div>
+                <div class="card col-md-3 m-3" style="width:250px">
+                    <img class="card-img-top mt-2" src="/images/image 25.png" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">The Ultimate Guide to the Best Mac USB-C Hub</h4>
+                        <p class="card-text">
+                            In today's ever-evolving digital landscape, a reliable
+                            Mac USB-C hub has become an indispensable.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark pb-3">
+        <div class="container text-secondary">
+            <hr />
+            <div>
+                <h4 id="LienHe">Buy on the Anker Store</h4>
+                <div class="row">
+                    <div class="col-6">
+                        <p><i class="fa-solid fa-toolbox"></i> Hassle-Free Warranty</p>
+                        <p><i class="fa-solid fa-plane"></i> Fast, Free Shipping</p>
+                    </div>
+                    <div class="col-6">
+                        <p><i class="fa-solid fa-money-bill"></i> 30-Day Money-Back Guarantee</p>
+                        <p><i class="fa-regular fa-address-book"></i> Lifetime Customer Support</p>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div>
+                <h4>Contact Us</h4>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"><i class="fa-solid fa-phone"></i></div>
+                            <div class="col-11">
+                                <p><strong>USA:</strong></p>
+                                <p><strong>tel:1-800-988-7973</strong></p>
+                                <p>Mon - Fri: 6AM - 5PM (PT)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="col-11">
+                                <p><strong>Website Live Chat:</strong></p>
+                                <p><strong>support@gmail.com</strong></p>
+                                <p>Mon - Fri: 10AM - 4PM (PT)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-1"><a href="#"><i class="fa-brands fa-facebook"></i></a></div>
+                <div class="col-md-1"><a href="#"><i class="fa-brands fa-twitter"></i></a></div>
+                <div class="col-md-1"><a href="#"><i class="fa-brands fa-youtube"></i></a></div>
+                <div class="col-md-1"><a href="#"><i class="fa-brands fa-instagram"></i></a></div>
+                <div class="col-md-1"><a href="#"><i class="fa-brands fa-tiktok"></i></a></div>
+            </div>
+            <hr />
+            <div class="text-center">© Fantasia Trading LLC 2022 200923810277</div>
+        </div>
+    </footer>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

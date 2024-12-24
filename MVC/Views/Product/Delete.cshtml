@@ -1,0 +1,40 @@
+﻿@model MVC.Models.Product
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<h1 class="text-center mt-4">Delete Product</h1>
+
+<div class="alert alert-warning">
+    <h3>Are you sure you want to delete this product?</h3>
+    <div class="mb-3">
+        <strong>Name: </strong>
+        <p>@Model.Name</p>
+    </div>
+    <div class="mb-3">
+        <strong>Price: </strong>
+        <p>@Model.Price</p>
+    </div>
+    <div class="mb-3">
+        <strong>Description: </strong>
+        <p>@Model.Description</p>
+    </div>
+    <div class="mb-3">
+        <strong>Quantity: </strong>
+        <p>@Model.Quantity</p> <!-- Hiển thị số lượng nếu cần -->
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <div class="mb-3">
+            <strong>Current Image:</strong>
+            <img src="@Model.ImageUrl" alt="Product Image" style="max-width: 200px; max-height: 200px;" />
+        </div>
+    }
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
